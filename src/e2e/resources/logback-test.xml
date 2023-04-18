@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{0} - %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework.core " level="error" />
+    <logger name="org.springframework.beans" level="error" />
+    <logger name="org.springframework.context" level="error" />
+    <logger name="org.springframework.transaction" level="error" />
+    <logger name="org.springframework.web" level="error" />
+    <logger name="org.springframework.test" level="error" />
+    <logger name="org.springframework.test" level="error" />
+    <logger name="com.sovlabs.defender.core.config.ControllerExceptionHandler" level="off" />
+    <logger name="org.hibernate" level="error" />
+    <logger name="org.eclipse" level="error" />
+
+    <root level="trace">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

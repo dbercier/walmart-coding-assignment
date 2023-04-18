@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>timosoft</groupId>
+    <artifactId>echoapi</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>echoapi</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <apache.commons.version>3.10</apache.commons.version>
+        <!-- Unit Test Related -->
+        <!-- First, we have to add two properties to the properties section of
+            our POM file: The skip.unit.tests property is true if Maven should skip our
+            unit tests. Because only unit tests are run by default, the default value
+            of this property must be false. The skip.integration.tests property is true
+            if Maven should skip our integration tests. The default value of this property
+            must be true. -->
+        <skip.unit.tests>false</skip.unit.tests>
+
+        <!-- First, we have to rename the skip.integration.tests property to skip.failsafe.plugin.
+            The reason for this is that the old name doesn’t really describe the purpose
+            of the property because the Maven Failsafe plugin runs both integration and
+            end-to-end tests. -->
+        <skip.failsafe.plugin>true</skip.failsafe.plugin>
+
+        <junit.jupiter.version>5.7.0-M1</junit.jupiter.version>
+        <junit.vintage.version>5.7.0-M1</junit.vintage.version>
+        <junit.platform.version>3.0.0-M3</junit.platform.version>
+        <junit.platform.surefire.provider.version>1.3.2</junit.platform.surefire.provider.version>
+        <failsafe.plugin.version>3.0.0-M4</failsafe.plugin.version>
+    </properties>
+
+    <profiles>
+
+        <profile>
+            <id>all-tests</id>
+            <properties>
+                <build.profile.id>all-tests</build.profile.id>
+                <!-- All tests are run. -->
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+        </profile>
+
+        <!-- Second, we have to create the required Maven profiles by following
+            these steps: We have to create a profile called: dev and ensure that this
+            profile is active by default. We have to create a profile called: integration-test
+            and ensure that Maven runs only our integration tests when this profile is
+            active. -->
+
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+        </profile>
+
+        <profile>
+            <id>integration-test</id>
+            <properties>
+                <!--Third, we have to add the junit.category configuration property to
+                    the configuration of the integration-test profile. This ensures that the
+                    Maven Failsafe plugin runs the test methods that belong to the IntegrationTest
+                    category when we run our integration tests. After we have added this configuration
+                    property to configuration of the integration-test profile, the profiles section
+                    of our POM file looks as follows: -->
+                <junit.category>com.walmart.subscription.IntegrationTest</junit.category>
+                <!-- Configuring Our Maven Profiles As we remember, we can run our integration
+                    tests by using the Maven Failsafe plugin. Because we will also run our end-to-end
+                    tests by using the same plugin, we have to make the following changes to
+                    the configuration of our Maven profiles: First, we have to rename the skip.integration.tests
+                    property to skip.failsafe.plugin. The reason for this is that the old name
+                    doesn’t really describe the purpose of the property because the Maven Failsafe
+                    plugin runs both integration and end-to-end tests. After we have renamed
+                    this property, the profiles section of our pom.xml file looks as follows: -->
+                <skip.failsafe.plugin>false</skip.failsafe.plugin>
+            </properties>
+        </profile>
+
+        <!-- Second, we have to create a new Maven profile called: end-to-end-test.
+            This profile ensures that only end-to-end tests are run when the end-to-end-test
+            profile is used. Also, because the Maven Failsafe plugin runs both integration
+            and end-to-end tests, we have to create a new configuration property called:
+            junit.category which configures the category of the test methods (com.testwithspring.intermediate.EndToEndTest)
+            that are run when the end-to-end-test profile is used. After we have created
+            this Maven profile, the profiles section of our POM file looks as follows: -->
+        <profile>
+            <id>e2e-test</id>
+            <properties>
+                <junit.category>com.walmart.subscription.EndToEndTest</junit.category>
+                <skip.failsafe.plugin>false</skip.failsafe.plugin>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>unit-test</id>
+            <properties>
+                <!-- Used to locate the profile specific configuration file. -->
+                <build.profile.id>unit-test</build.profile.id>
+                <!-- Only unit tests are run. -->
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+        </profile>
+
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.21.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.10</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.walmart.subscription.SubscriptionApplication</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
+                    <verbose>false</verbose>
+                    <annotationProcessors>
+                        <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+<!-- ===================================TESTING RELATED BELOW ===================================-->
+            <!--Start-UnitTests Surefire Plugin Def and Config -->
+            <!-- Configuring Maven to Skip Our Unit Tests The Maven Surefire Plugin
+              doesn’t run unit tests when the value of its skipTests configuration option
+              is true. Because we want to run our unit tests only when the dev profile
+              is active, we have to configure Maven to read the value of this configuration
+              option from the value of the skip.unit.tests property. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${junit.platform.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <argLine>-Xmx10g -noverify
+                        -Dsqlite4java.library.path=${basedir}/target/dependencies
+                    </argLine>
+                    <includes>
+                        <include>**/*Test</include>
+                    </includes>
+                    <skipTests>${skip.unit.tests}</skipTests>
+                </configuration>
+            </plugin>
+            <!--End-UnitTests Surefire Plugin Def and Config -->
+
+            <!--Start-IntegrationAndE2eTests Failsafe Plugin Def and Config -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <!--<goal>verify</goal>-->
+                        </goals>
+                        <configuration>
+                            <argLine>-Dsqlite4java.library.path=${basedir}/target/dependencies</argLine>
+                            <!--Configuring the Maven Failsafe Plugin As I already mentioned,
+                                we will run both integration and end-to-end tests by using the Maven Failsafe
+                                plugin. That is why we have to make the following changes to its configuration:
+                                Ensure that the value of the junit.category property specifies the category
+                                of the invoked test methods. Ensure that the Maven Failsafe plugin doesn’t
+                                run any test methods if the value of the skip.failsafe.plugin property is
+                                true. After we made the required changes to the configuration of the Maven
+                                Failsafe plugin, its configuration looks as follows: -->
+                            <!--groups>${junit.category}</groups>-->
+                            <skipTests>${skip.failsafe.plugin}</skipTests>
+                            <includes>
+                                <include>**/*IT</include>
+                                <include>**/*E2E</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--Start-IntegrationAndE2eTests Failsafe Plugin Def and Config -->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>add-integration-test-resources</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>add-test-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/e2e/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/src/integration/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-integration-and-e2e-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/integration/java</source>
+                                <source>${basedir}/src/e2e/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
