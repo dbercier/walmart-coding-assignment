@@ -19,7 +19,7 @@
     <logger name="org.hibernate" level="error" />
     <logger name="org.eclipse" level="error" />
 
-    <root level="trace">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

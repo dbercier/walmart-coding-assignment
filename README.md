@@ -16,7 +16,7 @@ Build:
 
 Run:
 
-- From the root folder, in a terminal shell do: mvn springboot:run
+- From the root folder, in a terminal shell do: mvn spring-boot:run
 
   OR, in IntelliJ go the SubscriptionApplication class; Right click and then left-click "run"
 
