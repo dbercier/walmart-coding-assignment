@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @ApiModel
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,7 +20,9 @@ import javax.validation.constraints.NotBlank;
 @JsonDeserialize(builder = Subscription.SubscriptionBuilder.class)
 public class Subscription {
     @NotBlank
-    protected String name;
+    @Pattern(regexp = "^[a-zA-Z\\s]*$|^$", message = "Field must not contain numbers")
+    private String name;
+
     @Email
     protected String email;
     @NotBlank

@@ -30,7 +30,7 @@ public class SubscriptionController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<Map<String, String>> errors = ex.getBindingResult()
+        final List<Map<String, String>> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(error -> {

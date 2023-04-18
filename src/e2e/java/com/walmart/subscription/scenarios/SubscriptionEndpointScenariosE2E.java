@@ -80,4 +80,41 @@ public class SubscriptionEndpointScenariosE2E extends BaseRestEndToEndTest {
 
     }
 
+    @Test
+    public void shouldReturnErrorOnNumericsInNameField() throws Exception {
+
+        final String expectedErrorResponse = "{\"errors\":[{\"name\":\"Field must not contain numbers\"}]}";
+
+        final BadDataErrors expectedBadDataErrors = objectMapper.readValue(expectedErrorResponse, BadDataErrors.class);
+
+        Subscription subscription = Subscription.builder()
+                .name("Clark Kent 55")
+                .userType("superUser")
+                .email("clarkKent@dailyplanet.net")
+                .company("Daily Planet Inc.")
+                .applicationType("news").build();
+
+        String requestBodyAsJSON = objectMapper.writeValueAsString(subscription);
+
+        BadDataErrors actualResponse = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .request()
+                .body(requestBodyAsJSON)
+                .post(StringUtils.join(DEFAULT_SPRING_BOOT_BASE_URI,
+                        SubscriptionConstants.SUBSCRIPTIONS_ENDPOINT_V1))
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .log()
+                .all()
+                .extract()
+                .response()
+                .body()
+                .as(BadDataErrors.class);
+
+        assertThat(actualResponse.getErrors()).containsExactlyInAnyOrderElementsOf(expectedBadDataErrors.getErrors());
+
+
+    }
+
 }
