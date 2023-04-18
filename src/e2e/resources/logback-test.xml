@@ -15,7 +15,6 @@
     <logger name="org.springframework.web" level="error" />
     <logger name="org.springframework.test" level="error" />
     <logger name="org.springframework.test" level="error" />
-    <logger name="com.sovlabs.defender.core.config.ControllerExceptionHandler" level="off" />
     <logger name="org.hibernate" level="error" />
     <logger name="org.eclipse" level="error" />
 
