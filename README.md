@@ -40,4 +40,5 @@ Run:
 
 Test
 
-1. Under src/e2e/java/scenarios, run the SubscriptionEndpointScenariosE2E class
+1. From IntelliJ:: Under src/e2e/java/scenarios, run the SubscriptionEndpointScenariosE2E class
+2. Using Maven commandline:: from app-root folder[~\?\?\walmart-coding-assignment], run mvn verify -Pe2e-test
